@@ -12,7 +12,7 @@
  * 
  * @Todo Set up the wiki.
  */
-package me.darkmagician6.eventapi.main;
+package com.darkmagician6.eventapi.main;
 
 /**
  * Main class for the API.

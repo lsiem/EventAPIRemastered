@@ -1,4 +1,4 @@
-package me.darkmagician6.eventapi.events;
+package com.darkmagician6.eventapi.events;
 
 /**
  * The most basic form of an event.

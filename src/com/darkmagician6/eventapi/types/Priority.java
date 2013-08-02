@@ -1,4 +1,4 @@
-package me.darkmagician6.eventapi.types;
+package com.darkmagician6.eventapi.types;
 
 /**
  * The priority for the dispatcher to determine what method should be invoked first.

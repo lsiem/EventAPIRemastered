@@ -1,8 +1,8 @@
-package me.darkmagician6.eventapi.util;
+package com.darkmagician6.eventapi.util;
 
 import java.lang.reflect.InvocationTargetException;
 
-import me.darkmagician6.eventapi.data.Data;
+import com.darkmagician6.eventapi.data.Data;
 
 /**
  * Simple utility class used for invoking single argument methods.

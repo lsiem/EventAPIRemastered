@@ -1,4 +1,4 @@
-package me.darkmagician6.eventapi.annotations;
+package com.darkmagician6.eventapi.annotation;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
@@ -6,7 +6,7 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-import me.darkmagician6.eventapi.types.Priority;
+import com.darkmagician6.eventapi.types.Priority;
 
 /**
  * Marks a method so that the registry knows that it should be registered.

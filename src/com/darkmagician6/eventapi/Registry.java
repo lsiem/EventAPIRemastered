@@ -1,13 +1,13 @@
-package me.darkmagician6.eventapi;
+package com.darkmagician6.eventapi;
 
 import java.lang.reflect.Method;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-import me.darkmagician6.eventapi.annotations.EventTarget;
-import me.darkmagician6.eventapi.data.MethodData;
-import me.darkmagician6.eventapi.events.Event;
-import me.darkmagician6.eventapi.util.EventDataMap;
+import com.darkmagician6.eventapi.annotation.EventTarget;
+import com.darkmagician6.eventapi.data.MethodData;
+import com.darkmagician6.eventapi.events.Event;
+import com.darkmagician6.eventapi.util.EventDataMap;
 
 /**
  * Contains all the registered MethodData sorted on the event parameters of the methods.

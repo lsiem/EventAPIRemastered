@@ -1,4 +1,4 @@
-package me.darkmagician6.eventapi.data;
+package com.darkmagician6.eventapi.data;
 
 import java.lang.reflect.Method;
 

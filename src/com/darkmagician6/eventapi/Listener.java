@@ -1,4 +1,4 @@
-package me.darkmagician6.eventapi;
+package com.darkmagician6.eventapi;
 
 /**
  * Helps with registering methods to the registry.

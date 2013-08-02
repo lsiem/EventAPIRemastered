@@ -1,4 +1,4 @@
-package me.darkmagician6.eventapi.util;
+package com.darkmagician6.eventapi.util;
 
 import java.util.HashMap;
 import java.util.Iterator;
@@ -6,8 +6,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-import me.darkmagician6.eventapi.data.MethodData;
-import me.darkmagician6.eventapi.types.Priority;
+import com.darkmagician6.eventapi.data.MethodData;
+import com.darkmagician6.eventapi.types.Priority;
 
 /**
  * An HashMap made for storing lists with MethodData's sorted on the corresponding Event class.

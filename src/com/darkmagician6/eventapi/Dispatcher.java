@@ -1,10 +1,10 @@
-package me.darkmagician6.eventapi;
+package com.darkmagician6.eventapi;
 
 import java.util.List;
 
-import me.darkmagician6.eventapi.data.MethodData;
-import me.darkmagician6.eventapi.events.Event;
-import me.darkmagician6.eventapi.util.Invoker;
+import com.darkmagician6.eventapi.data.MethodData;
+import com.darkmagician6.eventapi.events.Event;
+import com.darkmagician6.eventapi.util.Invoker;
 
 /**
  * Used to call Events and to send them to the methods that are listening for them.
