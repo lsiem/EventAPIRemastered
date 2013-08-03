@@ -114,7 +114,7 @@ public class Registry {
 	 */
 	protected void register(Method method, Listener listener) {
 		Class<?> indexClass = method.getParameterTypes()[0];
-		final MethodData data = new MethodData(listener, method.getAnnotation(EventTarget.class).value(), method);
+		final MethodData data = new MethodData(listener, method, method.getAnnotation(EventTarget.class).value());
 	
 		if(dataMap.containsKey(indexClass)) {
 			dataMap.get(indexClass).add(data);

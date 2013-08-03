@@ -35,7 +35,7 @@ public final class EventDataMap extends HashMap<Class<?>, List<MethodData>> {
 	}
 	
 	/**
-	 * Sorts the List that matches the corresponding Event class based on priority type.
+	 * Sorts the List that matches the corresponding Event class based on priority value.
 	 * 
 	 * @param indexClass
 	 * 		The Event class index in the EventDataMap of the List to sort.
@@ -43,9 +43,9 @@ public final class EventDataMap extends HashMap<Class<?>, List<MethodData>> {
 	public void sortListValue(Class<?> indexClass) {
 		List<MethodData> sortedList = new CopyOnWriteArrayList<MethodData>();
 		
-		for(final Priority priority : Priority.values()) {
+		for(final byte priority : Priority.VALUE_ARRAY) {
 			for(final MethodData data : get(indexClass)) {
-				if(data.getPriority().equals(priority))
+				if(data.getPriority() == priority)
 					sortedList.add(data);
 			}
 		}

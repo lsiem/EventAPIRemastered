@@ -5,11 +5,14 @@ import java.lang.reflect.Method;
 /**
  * Abstract base class for classes to store data of methods.
  * 
+ * @param <O>
+ * 		The type of object that we has to be the source object of the method.
+ * 
  * @author DarkMagician6
  * @since July 30, 2013
  */
-public abstract class Data {
-	private final Object source;
+public abstract class Data<O> {
+	private final O source;
 	
 	private final Method method;
 	
@@ -21,7 +24,7 @@ public abstract class Data {
 	 * @param targetMethod
 	 * 		The method we want to store.
 	 */
-	protected Data(Object source, Method targetMethod) {
+	protected Data(O source, Method targetMethod) {
 		this.source = source;
 		method = targetMethod;
 	}
@@ -32,7 +35,7 @@ public abstract class Data {
 	 * @return
 	 *   The stored method's source object.
 	 */
-	public Object getSource() {
+	public O getSource() {
 		return source;
 	}
 	

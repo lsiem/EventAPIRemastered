@@ -20,5 +20,5 @@ import com.darkmagician6.eventapi.types.Priority;
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface EventTarget {
-	Priority value() default Priority.MEDIUM;
+	byte value() default Priority.MEDIUM;
 }
