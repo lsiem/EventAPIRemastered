@@ -12,7 +12,7 @@ import com.darkmagician6.eventapi.types.Priority;
  * @author DarkMagician6
  * @since July 30, 2013
  */
-public class MethodData extends Data<Listener> {
+public final class MethodData extends Data {
 	private final byte priority;
 	
 	/**
@@ -20,10 +20,10 @@ public class MethodData extends Data<Listener> {
 	 * 
 	 * @param source
 	 * 		The listener source of the method.
-	 * @param priority
-	 * 		The priority of the method.
 	 * @param targetMethod
 	 * 		The method to store.
+	 * @param priority
+	 * 		The priority of the method.
 	 */
 	public MethodData(Listener source, Method targetMethod, byte priority) {
 		super(source, targetMethod);

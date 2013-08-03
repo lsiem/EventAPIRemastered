@@ -1,35 +1,41 @@
 package com.darkmagician6.eventapi;
 
 import java.lang.reflect.Method;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import com.darkmagician6.eventapi.annotation.EventTarget;
 import com.darkmagician6.eventapi.data.MethodData;
 import com.darkmagician6.eventapi.events.Event;
-import com.darkmagician6.eventapi.util.EventDataMap;
+import com.darkmagician6.eventapi.types.Priority;
 
 /**
- * Contains all the registered MethodData sorted on the event parameters of the methods.
+ * HashMap containing all the registered MethodData sorted on the event parameters of the methods.
  * Also contains the methods for registering/unregistering methods marked with the EventTarget annotation.
  * @see EventTarget
  * 
  * @author DarkMagician6
- * @since July 30, 2013
+ * @since August 3, 2013
  */
-public class Registry {
-	/**
-	 * Map containing all the registered MethodData sorted on the event classes.
-	 * Uses a CopyOnWriteArrayList instead of a normal ArrayList to store the MethodData to ensure stability in multi-threaded enviroments.
-	 * @see EventDataMap
-	 */
-	private final EventDataMap dataMap;
+public final class RegistryMap extends HashMap<Class<?>, List<MethodData>> {
 	
 	/**
-	 * Set's the dataMap to a new, fresh EventDataMap when the Registry is instantiated.
+	 * Because Eclipse wanted it.
 	 */
-	public Registry() {
-		dataMap = new EventDataMap();
+	private static final long serialVersionUID = 666L;
+
+	/**
+	 * Set's up the HashMap with a custom initial size and load factor.
+	 */
+	public RegistryMap() {
+		/**
+		 * Slightly lower load factor should improve the reading performance as we read way more then that we write.
+		 * If you have more then 16 events it might be smart to choose a higher initial size to save a tiny bit of performance.
+		 */
+		super(16, 0.7F);
 	}
 	
 	/**
@@ -71,14 +77,14 @@ public class Registry {
 	 * 		Object that implements the Listener interface.
 	 */
 	public void unregisterListener(Listener listener) {
-		for(final List<MethodData> dataList : dataMap.values()) {
+		for(final List<MethodData> dataList : values()) {
 			for(final MethodData data : dataList) {
 				if(data.getSource().equals(listener))
 					dataList.remove(data);
 			}
 		}
 		
-		dataMap.clearEmptyEntries();
+		clearEmptyEntries();
 	}
 	
 	/**
@@ -90,37 +96,37 @@ public class Registry {
 	 * 		Parameter class for the method to remove.
 	 */
 	public void unregisterListener(Listener listener, Class<? extends Event> eventClass) {
-		if(dataMap.containsKey(eventClass)) {
-			for(final MethodData data : dataMap.get(eventClass)) {
+		if(containsKey(eventClass)) {
+			for(final MethodData data : get(eventClass)) {
 				if(data.getSource().equals(listener))
-					dataMap.get(eventClass).remove(data);
+					get(eventClass).remove(data);
 			}
 			
-			dataMap.clearEmptyEntries();
+			clearEmptyEntries();
 		}
 	}
 	
 	/**
-	 * Registers a new MethodData to the dataMap.
-	 * If the dataMap already contains the key of the Method's first argument it will add
+	 * Registers a new MethodData to the HashMap.
+	 * If the HashMap already contains the key of the Method's first argument it will add
 	 * a new MethodData to key's matching list and sorts it based on Priority. @see Priority
-	 * Otherwise it will put a new entry in the dataMap with a the first argument's class
+	 * Otherwise it will put a new entry in the HashMap with a the first argument's class
 	 * and a new CopyOnWriteArrayList containing the new MethodData.
 	 * 
 	 * @param method
-	 * 		Method to register to the dataMap.
+	 * 		Method to register to the HashMap.
 	 * @param listener
 	 * 		Source listener of the method.
 	 */
-	protected void register(Method method, Listener listener) {
+	private void register(Method method, Listener listener) {
 		Class<?> indexClass = method.getParameterTypes()[0];
 		final MethodData data = new MethodData(listener, method, method.getAnnotation(EventTarget.class).value());
 	
-		if(dataMap.containsKey(indexClass)) {
-			dataMap.get(indexClass).add(data);
-			dataMap.sortListValue(indexClass);
+		if(containsKey(indexClass)) {
+			get(indexClass).add(data);
+			sortListValue(indexClass);
 		} else {
-			dataMap.put(indexClass, new CopyOnWriteArrayList<MethodData>() {
+			put(indexClass, new CopyOnWriteArrayList<MethodData>() {
 				/**
 				 * Eclipse wanted me to add the UID. :/
 				 */
@@ -131,7 +137,39 @@ public class Registry {
 	}
 	
 	/**
-	 * Checks if the method does not meet the requirements to be used to recieve event calls from the Dispatcher.
+	 * Clears out all entries with an empty List.
+	 * Uses an iterator to make sure that the entry is completely removed.
+	 */
+	private void clearEmptyEntries() {
+		Iterator<Map.Entry<Class<?>, List<MethodData>>> iterator = entrySet().iterator();
+		
+		while(iterator.hasNext()) {
+			if(iterator.next().getValue().isEmpty())
+				iterator.remove();
+		}
+	}
+	
+	/**
+	 * Sorts the List that matches the corresponding Event class based on priority value.
+	 * 
+	 * @param indexClass
+	 * 		The Event class index in the HashMap of the List to sort.
+	 */
+	private void sortListValue(Class<?> indexClass) {
+		List<MethodData> sortedList = new CopyOnWriteArrayList<MethodData>();
+		
+		for(final byte priority : Priority.VALUE_ARRAY) {
+			for(final MethodData data : get(indexClass)) {
+				if(data.getPriority() == priority)
+					sortedList.add(data);
+			}
+		}
+
+		put(indexClass, sortedList);
+	}
+	
+	/**
+	 * Checks if the method does not meet the requirements to be used to receive event calls from the Dispatcher.
 	 * Performed checks: Checks if the parameter length is not 1 and if the EventTarget annotation is not present.
 	 * @see EventTarget
 	 * 
@@ -140,28 +178,28 @@ public class Registry {
 	 * @return
 	 * 		True if the method should not be used for recieving event calls from the Dispatcher.
 	 */
-	protected boolean isMethodBad(Method method) {
+	private boolean isMethodBad(Method method) {
 		return method.getParameterTypes().length != 1 || !method.isAnnotationPresent(EventTarget.class);
 	}
 	
 	/**
-	 * Checks if the method does not meet the requirements to be used to recieve event calls from the Dispatcher.
-	 * Performed checks: Checks if the parameter class of the method is the same as the event we want to recieve.
+	 * Checks if the method does not meet the requirements to be used to receive event calls from the Dispatcher.
+	 * Performed checks: Checks if the parameter class of the method is the same as the event we want to receive.
 	 * @see EventTarget
 	 * 
 	 * @param method
 	 * 		Method to check.
 	 * @param
-	 * 		Class of the Event we want to find a method for recieving it.
+	 * 		Class of the Event we want to find a method for receiving it.
 	 * @return
-	 * 		True if the method should not be used for recieving event calls from the Dispatcher.
+	 * 		True if the method should not be used for receiving event calls from the Dispatcher.
 	 */
-	protected boolean isMethodBad(Method method, Class<? extends Event> eventClass) {
+	private boolean isMethodBad(Method method, Class<? extends Event> eventClass) {
 		return isMethodBad(method) || !method.getParameterTypes()[0].equals(eventClass);
 	}
 	
 	/**
-	 * Get's the MethodData list from the dataMap based on the event class.
+	 * Get's the MethodData list from the HashMap based on the event class.
 	 * 
 	 * @param event
 	 * 		Event of which we want to get the registered MethodData from.
@@ -169,7 +207,7 @@ public class Registry {
 	 * 		List containing the right MethodData.
 	 */
 	public final List<MethodData> getMatchingData(final Event event) {
-		return dataMap.get(event.getClass());
+		return get(event.getClass());
 	}
 
 }

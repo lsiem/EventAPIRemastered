@@ -23,7 +23,7 @@ public final class Invoker<E> {
 	 * @param arg
 	 * 		Argument that is needed to invoke the method. The type of the argument is defined when the Invoker is initialized.
 	 */
-	public void invoke(final Data<?> data, E arg) {
+	public void invoke(final Data data, E arg) {
 		try {
 			data.getMethod().invoke(data.getSource(), arg);
 		} catch(IllegalAccessException e) {
