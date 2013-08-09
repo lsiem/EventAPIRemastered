@@ -31,11 +31,8 @@ public final class RegistryMap extends HashMap<Class<?>, List<MethodData>> {
 	 * Set's up the HashMap with a custom initial size and load factor.
 	 */
 	public RegistryMap() {
-		/**
-		 * Slightly lower load factor should improve the reading performance as we read way more then that we write.
-		 * If you have more then 16 events it might be smart to choose a higher initial size to save a tiny bit of performance.
-		 */
-		super(16, 0.7F);
+		//Left at default for now to ensure stability, might look more into this later.
+		super(16, 0.75F);
 	}
 	
 	/**
@@ -84,7 +81,7 @@ public final class RegistryMap extends HashMap<Class<?>, List<MethodData>> {
 			}
 		}
 		
-		clearEmptyEntries();
+		cleanMap(true);
 	}
 	
 	/**
@@ -102,7 +99,7 @@ public final class RegistryMap extends HashMap<Class<?>, List<MethodData>> {
 					get(eventClass).remove(data);
 			}
 			
-			clearEmptyEntries();
+			cleanMap(true);
 		}
 	}
 	
@@ -127,9 +124,7 @@ public final class RegistryMap extends HashMap<Class<?>, List<MethodData>> {
 			sortListValue(indexClass);
 		} else {
 			put(indexClass, new CopyOnWriteArrayList<MethodData>() {
-				/**
-				 * Eclipse wanted me to add the UID. :/
-				 */
+				//Eclipse wanted me to add the UID. :/
 				private static final long serialVersionUID = 69L; {
 					add(data);
 			}});
@@ -137,15 +132,18 @@ public final class RegistryMap extends HashMap<Class<?>, List<MethodData>> {
 	}
 	
 	/**
-	 * Clears out all entries with an empty List.
+	 * Cleans up the map entries.
 	 * Uses an iterator to make sure that the entry is completely removed.
+	 * 
+	 * @param onlyEmptyEntries
+	 * 		If true only remove the entries with an empty list, otherwise remove all the entries.
 	 */
-	private void clearEmptyEntries() {
-		Iterator<Map.Entry<Class<?>, List<MethodData>>> iterator = entrySet().iterator();
+	public void cleanMap(boolean onlyEmptyEntries) {
+		Iterator<Map.Entry<Class<?>, List<MethodData>>> mapIterator = entrySet().iterator();
 		
-		while(iterator.hasNext()) {
-			if(iterator.next().getValue().isEmpty())
-				iterator.remove();
+		while(mapIterator.hasNext()) {
+			if(!onlyEmptyEntries || mapIterator.next().getValue().isEmpty())
+				mapIterator.remove();
 		}
 	}
 	
@@ -206,8 +204,8 @@ public final class RegistryMap extends HashMap<Class<?>, List<MethodData>> {
 	 * @return
 	 * 		List containing the right MethodData.
 	 */
-	public final List<MethodData> getMatchingData(final Event event) {
-		return get(event.getClass());
+	public final List<MethodData> getMatchingData(final Event indexEvent) {
+		return get(indexEvent.getClass());
 	}
 
 }

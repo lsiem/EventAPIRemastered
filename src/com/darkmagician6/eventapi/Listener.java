@@ -1,7 +1,5 @@
 package com.darkmagician6.eventapi;
 
-import java.rmi.registry.Registry;
-
 /**
  * Helps with registering methods to the registry.
  * This interface needs to be implemented in every class with methods that should be registered.
