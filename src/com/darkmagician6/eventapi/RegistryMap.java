@@ -42,9 +42,10 @@ public final class RegistryMap extends HashMap<Class<?>, List<MethodData>> {
 	 * 		Object that implements the Listener interface.
 	 */
 	public void registerListener(Listener listener) {
-		for(final Method method : listener.getClass().getDeclaredMethods()) {
-			if(isMethodBad(method))
+		for (final Method method : listener.getClass().getDeclaredMethods()) {
+			if (isMethodBad(method)) {
 				continue;
+			}
 			
 			register(method, listener);
 		}
@@ -59,9 +60,10 @@ public final class RegistryMap extends HashMap<Class<?>, List<MethodData>> {
 	 * 		Parameter class for the marked method we are looking for.
 	 */
 	public void registerListener(Listener listener, Class<? extends Event> eventClass) {
-		for(final Method method : listener.getClass().getDeclaredMethods()) {
-			if(isMethodBad(method, eventClass))
+		for (final Method method : listener.getClass().getDeclaredMethods()) {
+			if (isMethodBad(method, eventClass)) {
 				continue;
+			}
 			
 			register(method, listener);
 		}
@@ -74,10 +76,11 @@ public final class RegistryMap extends HashMap<Class<?>, List<MethodData>> {
 	 * 		Object that implements the Listener interface.
 	 */
 	public void unregisterListener(Listener listener) {
-		for(final List<MethodData> dataList : values()) {
-			for(final MethodData data : dataList) {
-				if(data.getSource().equals(listener))
+		for (final List<MethodData> dataList : values()) {
+			for (final MethodData data : dataList) {
+				if (data.getSource().equals(listener)) {
 					dataList.remove(data);
+				}
 			}
 		}
 		
@@ -93,10 +96,11 @@ public final class RegistryMap extends HashMap<Class<?>, List<MethodData>> {
 	 * 		Parameter class for the method to remove.
 	 */
 	public void unregisterListener(Listener listener, Class<? extends Event> eventClass) {
-		if(containsKey(eventClass)) {
-			for(final MethodData data : get(eventClass)) {
-				if(data.getSource().equals(listener))
+		if (containsKey(eventClass)) {
+			for (final MethodData data : get(eventClass)) {
+				if (data.getSource().equals(listener)) {
 					get(eventClass).remove(data);
+				}
 			}
 			
 			cleanMap(true);
@@ -119,7 +123,7 @@ public final class RegistryMap extends HashMap<Class<?>, List<MethodData>> {
 		Class<?> indexClass = method.getParameterTypes()[0];
 		final MethodData data = new MethodData(listener, method, method.getAnnotation(EventTarget.class).value());
 	
-		if(containsKey(indexClass)) {
+		if (containsKey(indexClass)) {
 			get(indexClass).add(data);
 			sortListValue(indexClass);
 		} else {
@@ -141,9 +145,10 @@ public final class RegistryMap extends HashMap<Class<?>, List<MethodData>> {
 	public void cleanMap(boolean onlyEmptyEntries) {
 		Iterator<Map.Entry<Class<?>, List<MethodData>>> mapIterator = entrySet().iterator();
 		
-		while(mapIterator.hasNext()) {
-			if(!onlyEmptyEntries || mapIterator.next().getValue().isEmpty())
+		while (mapIterator.hasNext()) {
+			if (!onlyEmptyEntries || mapIterator.next().getValue().isEmpty()) {
 				mapIterator.remove();
+			}
 		}
 	}
 	
@@ -156,10 +161,11 @@ public final class RegistryMap extends HashMap<Class<?>, List<MethodData>> {
 	private void sortListValue(Class<?> indexClass) {
 		List<MethodData> sortedList = new CopyOnWriteArrayList<MethodData>();
 		
-		for(final byte priority : Priority.VALUE_ARRAY) {
-			for(final MethodData data : get(indexClass)) {
-				if(data.getPriority() == priority)
+		for (final byte priority : Priority.VALUE_ARRAY) {
+			for (final MethodData data : get(indexClass)) {
+				if (data.getPriority() == priority) {
 					sortedList.add(data);
+				}
 			}
 		}
 

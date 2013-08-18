@@ -44,9 +44,10 @@ public final class Dispatcher {
 	public Event call(final Event event) {
 		List<MethodData> dataList = Listener.registry.getMatchingData(event);
 		
-		if(dataList != null) {
-			for(final MethodData data : dataList)
+		if (dataList != null) {
+			for (final MethodData data : dataList) {
 				invoker.invoke(data, event);
+			}
 		}
 		
 		return event;
