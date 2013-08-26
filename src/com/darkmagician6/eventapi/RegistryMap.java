@@ -136,6 +136,23 @@ public final class RegistryMap extends HashMap<Class<?>, List<MethodData>> {
 	}
 	
 	/**
+	 * Removes an entry based on the key value in the map.
+	 * 
+	 * @param indexClass
+	 * 		They index key in the map of which the entry should be removed.
+	 */
+	public void removeEntry(Class<?> indexClass) {
+		Iterator<Map.Entry<Class<?>, List<MethodData>>> mapIterator = entrySet().iterator();
+		
+		while (mapIterator.hasNext()) {
+			if (mapIterator.next().getKey().equals(indexClass)) {
+				mapIterator.remove();
+				break;
+			}
+		}
+	}
+	
+	/**
 	 * Cleans up the map entries.
 	 * Uses an iterator to make sure that the entry is completely removed.
 	 * 
