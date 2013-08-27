@@ -7,4 +7,4 @@ package com.darkmagician6.eventapi.events;
  * @author DarkMagician6
  * @since July 30, 2013
  */
-public abstract interface Event {}
+public interface Event {}

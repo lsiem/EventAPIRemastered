@@ -25,6 +25,6 @@ public final class EventAPI {
 	/**
 	 * The current version of the API.
 	 */
-	public static final String VERSION = String.format("%s-%s", "0.4", "alpha");
+	public static final String VERSION = String.format("%s-%s", "0.5", "beta");
 
 }
