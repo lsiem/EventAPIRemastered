@@ -19,7 +19,7 @@ public final class Dispatcher {
 	 * The type for the invoker is Event because we want it to use Events as arguments when invoking methods.
 	 * @see com.darkmagician6.eventapi.util.Invoker
 	 */
-	private static final Invoker<Event> invoker = new Invoker<Event>();
+	private static final Invoker<Event> INVOKER = new Invoker<Event>();
 
 	/**
 	 * Private because there is no need to create an instance of this class.
@@ -44,7 +44,7 @@ public final class Dispatcher {
 		
 		if (dataList != null) {
 			for (final MethodData data : dataList) {
-				invoker.invoke(data, event);
+				INVOKER.invoke(data, event);
 			}
 		}
 		
