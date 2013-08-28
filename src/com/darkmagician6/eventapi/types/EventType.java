@@ -1,4 +1,4 @@
-package com.darkmagician6.eventapi.events.types;
+package com.darkmagician6.eventapi.types;
 
 /**
  * Types that can be used for typed events.
@@ -6,7 +6,7 @@ package com.darkmagician6.eventapi.events.types;
  * @author DarkMagician6
  * @since August 27, 2013
  */
-public class Type {
+public class EventType {
 
 	/**
 	 * Used to define the type of a typed event.
@@ -14,6 +14,8 @@ public class Type {
 	public static final byte
 	PRE = 0, 
 	ON = 1, 
-	POST = 2;
+	POST = 2,
+	SEND = 3,
+	RECIEVE = 4;
 	
 }

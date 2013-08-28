@@ -11,7 +11,7 @@ public interface Listener {
 	/**
 	 * The registry instance used by the Dispatcher and the classes that implement the Listener interface.
 	 * Fields in interfaces are public, static and final by default so there is no need to add those keywords manually.
-	 * @see Registry
+	 * @see com.darkmagician6.eventapi.Registry
 	 */
 	RegistryMap registry = new RegistryMap();
 }

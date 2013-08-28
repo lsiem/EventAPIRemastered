@@ -16,7 +16,7 @@ public abstract class EventCancellable implements Event, Cancellable {
 	}
 
 	/**
-	 * @see Cancellable.isCancelled
+	 * @see com.darkmagician6.eventapi.events.Cancellable.isCancelled
 	 */
 	@Override
 	public boolean isCancelled() {
@@ -24,7 +24,7 @@ public abstract class EventCancellable implements Event, Cancellable {
 	}
 	
 	/**
-	 * @see Cancellable.setCancelled
+	 * @see com.darkmagician6.eventapi.events.Cancellable.setCancelled
 	 */
 	@Override
 	public void setCancelled(boolean state) {

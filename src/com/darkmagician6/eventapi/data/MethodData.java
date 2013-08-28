@@ -3,7 +3,6 @@ package com.darkmagician6.eventapi.data;
 import java.lang.reflect.Method;
 
 import com.darkmagician6.eventapi.Listener;
-import com.darkmagician6.eventapi.types.Priority;
 
 /**
  * Class used to store a method that could be used in the dispatcher.
@@ -32,7 +31,7 @@ public final class MethodData extends Data {
 	
 	/**
 	 * Get's the priority of the method.
-	 * @see Priority
+	 * @see com.darkmagician6.eventapi.types.Priority
 	 * 
 	 * @return
 	 * 		The priority for the dispatcher.

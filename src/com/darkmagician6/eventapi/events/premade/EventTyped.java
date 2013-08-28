@@ -23,7 +23,7 @@ public abstract class EventTyped implements Event, Typed {
 	}
 
 	/**
-	 * @see Typed.getType
+	 * @see com.darkmagician6.eventapi.events.Typed.getType
 	 */
 	@Override
 	public byte getType() {

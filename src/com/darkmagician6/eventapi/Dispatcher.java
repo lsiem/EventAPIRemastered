@@ -13,20 +13,18 @@ import com.darkmagician6.eventapi.util.Invoker;
  * @since July 30, 2013
  */
 public final class Dispatcher {
-	private static volatile Dispatcher instance;
 	
 	/**
 	 * The invoker instance is used to invoke MethodData.
 	 * The type for the invoker is Event because we want it to use Events as arguments when invoking methods.
-	 * @see Invoker
+	 * @see com.darkmagician6.eventapi.util.Invoker
 	 */
-	private final Invoker<Event> invoker;
-	
+	private static final Invoker<Event> invoker = new Invoker<Event>();
+
 	/**
-	 * Set's up the invoker when the Dispatcher instance is created.
+	 * Private because there is no need to create an instance of this class.
 	 */
 	private Dispatcher() {
-		invoker = new Invoker<Event>();
 	}
 	
 	/**
@@ -41,7 +39,7 @@ public final class Dispatcher {
 	 * @return
 	 * 		Event in the state after dispatching it.
 	 */
-	public Event call(final Event event) {
+	public static final Event call(final Event event) {
 		List<MethodData> dataList = Listener.registry.getMatchingData(event);
 		
 		if (dataList != null) {
@@ -51,16 +49,6 @@ public final class Dispatcher {
 		}
 		
 		return event;
-	}
-	
-	/**
-	 * Public getter for the singleton of the Dispatcher.
-	 * 
-	 * @return
-	 * 		Singleton instance of the Dispatcher object. Also set's the singleton if it's null.
-	 */
-	public static final Dispatcher getInstance() {
-		return instance == null ? instance = new Dispatcher() : instance;
 	}
 
 }

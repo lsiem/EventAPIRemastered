@@ -15,7 +15,7 @@ import com.darkmagician6.eventapi.types.Priority;
 /**
  * HashMap containing all the registered MethodData sorted on the event parameters of the methods.
  * Also contains the methods for registering/unregistering methods marked with the EventTarget annotation.
- * @see EventTarget
+ * @see com.darkmagician6.eventapi.annotation.EventTarget
  * 
  * @author DarkMagician6
  * @since August 3, 2013
@@ -52,7 +52,8 @@ public final class RegistryMap extends HashMap<Class<?>, List<MethodData>> {
 	}
 	
 	/**
-	 * Registers the methods marked with the EventTarget annotation and that require the specified Event as the parameter in the class that implements the Listener interface.
+	 * Registers the methods marked with the EventTarget annotation and that require 
+	 * the specified Event as the parameter in the class that implements the Listener interface.
 	 * 
 	 * @param listener
 	 * 		Object that implements the Listener interface.
@@ -88,7 +89,8 @@ public final class RegistryMap extends HashMap<Class<?>, List<MethodData>> {
 	}
 	
 	/**
-	 * Unregisters all the methods in the object that implements the Listener interface and require the specified event as their parameter.
+	 * Unregisters all the methods in the object that implements the Listener interface 
+	 * and require the specified event as their parameter.
 	 * 
 	 * @param listener
 	 * 		Object that implements the Listener interface.
@@ -110,7 +112,7 @@ public final class RegistryMap extends HashMap<Class<?>, List<MethodData>> {
 	/**
 	 * Registers a new MethodData to the HashMap.
 	 * If the HashMap already contains the key of the Method's first argument it will add
-	 * a new MethodData to key's matching list and sorts it based on Priority. @see Priority
+	 * a new MethodData to key's matching list and sorts it based on Priority. @see com.darkmagician6.types.Priority
 	 * Otherwise it will put a new entry in the HashMap with a the first argument's class
 	 * and a new CopyOnWriteArrayList containing the new MethodData.
 	 * 
@@ -186,13 +188,14 @@ public final class RegistryMap extends HashMap<Class<?>, List<MethodData>> {
 			}
 		}
 
+		//Overwriting the existing entry.
 		put(indexClass, sortedList);
 	}
 	
 	/**
 	 * Checks if the method does not meet the requirements to be used to receive event calls from the Dispatcher.
 	 * Performed checks: Checks if the parameter length is not 1 and if the EventTarget annotation is not present.
-	 * @see EventTarget
+	 * @see com.darkmagician6.eventapi.annotation.EventTarget
 	 * 
 	 * @param method
 	 * 		Method to check.
@@ -206,7 +209,7 @@ public final class RegistryMap extends HashMap<Class<?>, List<MethodData>> {
 	/**
 	 * Checks if the method does not meet the requirements to be used to receive event calls from the Dispatcher.
 	 * Performed checks: Checks if the parameter class of the method is the same as the event we want to receive.
-	 * @see EventTarget
+	 * @see com.darkmagician6.eventapi.annotation.EventTarget
 	 * 
 	 * @param method
 	 * 		Method to check.
@@ -222,7 +225,7 @@ public final class RegistryMap extends HashMap<Class<?>, List<MethodData>> {
 	/**
 	 * Get's the MethodData list from the HashMap based on the event class.
 	 * 
-	 * @param event
+	 * @param indexEvent
 	 * 		Event of which we want to get the registered MethodData from.
 	 * @return
 	 * 		List containing the right MethodData.

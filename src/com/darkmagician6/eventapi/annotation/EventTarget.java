@@ -11,7 +11,7 @@ import com.darkmagician6.eventapi.types.Priority;
 /**
  * Marks a method so that the registry knows that it should be registered.
  * The priority of the method is also set with this. 
- * @see Priority
+ * @see com.darkmagician6.eventapi.types.Priority
  * 
  * @author DarkMagician6
  * @since July 30, 2013
