@@ -112,7 +112,7 @@ public final class RegistryMap extends HashMap<Class<?>, List<MethodData>> {
 	/**
 	 * Registers a new MethodData to the HashMap.
 	 * If the HashMap already contains the key of the Method's first argument it will add
-	 * a new MethodData to key's matching list and sorts it based on Priority. @see com.darkmagician6.types.Priority
+	 * a new MethodData to key's matching list and sorts it based on Priority. @see com.darkmagician6.eventapi.types.Priority
 	 * Otherwise it will put a new entry in the HashMap with a the first argument's class
 	 * and a new CopyOnWriteArrayList containing the new MethodData.
 	 * 
