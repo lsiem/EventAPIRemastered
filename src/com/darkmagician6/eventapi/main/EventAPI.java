@@ -30,6 +30,8 @@ public final class EventAPI {
 	/**
 	 * Array containing the authors of the API.
 	 */
-	public static final String[] AUTHORS = new String[] {"DarkMagician6"};
+	public static final String[] AUTHORS = {
+		"DarkMagician6"
+	};
 
 }

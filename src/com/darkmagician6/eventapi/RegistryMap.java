@@ -8,19 +8,19 @@ import java.util.Map;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import com.darkmagician6.eventapi.annotation.EventTarget;
-import com.darkmagician6.eventapi.data.MethodData;
+import com.darkmagician6.eventapi.data.ListenerData;
 import com.darkmagician6.eventapi.events.Event;
 import com.darkmagician6.eventapi.types.Priority;
 
 /**
- * HashMap containing all the registered MethodData sorted on the event parameters of the methods.
+ * HashMap containing all the registered ListenerData sorted on the event parameters of the methods.
  * Also contains the methods for registering/unregistering methods marked with the EventTarget annotation.
  * @see com.darkmagician6.eventapi.annotation.EventTarget
  * 
  * @author DarkMagician6
  * @since August 3, 2013
  */
-public final class RegistryMap extends HashMap<Class<?>, List<MethodData>> {
+public final class RegistryMap extends HashMap<Class<?>, List<ListenerData>> {
 	
 	/**
 	 * Because Eclipse wanted it.
@@ -77,8 +77,8 @@ public final class RegistryMap extends HashMap<Class<?>, List<MethodData>> {
 	 * 		Object that implements the Listener interface.
 	 */
 	public void unregisterListener(Listener listener) {
-		for (final List<MethodData> dataList : values()) {
-			for (final MethodData data : dataList) {
+		for (final List<ListenerData> dataList : values()) {
+			for (final ListenerData data : dataList) {
 				if (data.getSource().equals(listener)) {
 					dataList.remove(data);
 				}
@@ -99,7 +99,7 @@ public final class RegistryMap extends HashMap<Class<?>, List<MethodData>> {
 	 */
 	public void unregisterListener(Listener listener, Class<? extends Event> eventClass) {
 		if (containsKey(eventClass)) {
-			for (final MethodData data : get(eventClass)) {
+			for (final ListenerData data : get(eventClass)) {
 				if (data.getSource().equals(listener)) {
 					get(eventClass).remove(data);
 				}
@@ -110,11 +110,11 @@ public final class RegistryMap extends HashMap<Class<?>, List<MethodData>> {
 	}
 	
 	/**
-	 * Registers a new MethodData to the HashMap.
+	 * Registers a new ListenerData to the HashMap.
 	 * If the HashMap already contains the key of the Method's first argument it will add
-	 * a new MethodData to key's matching list and sorts it based on Priority. @see com.darkmagician6.eventapi.types.Priority
+	 * a new ListenerData to key's matching list and sorts it based on Priority. @see com.darkmagician6.eventapi.types.Priority
 	 * Otherwise it will put a new entry in the HashMap with a the first argument's class
-	 * and a new CopyOnWriteArrayList containing the new MethodData.
+	 * and a new CopyOnWriteArrayList containing the new ListenerData.
 	 * 
 	 * @param method
 	 * 		Method to register to the HashMap.
@@ -123,13 +123,14 @@ public final class RegistryMap extends HashMap<Class<?>, List<MethodData>> {
 	 */
 	private void register(Method method, Listener listener) {
 		Class<?> indexClass = method.getParameterTypes()[0];
-		final MethodData data = new MethodData(listener, method, method.getAnnotation(EventTarget.class).value());
+		//New ListenerData from the Method we are registering.
+		final ListenerData data = new ListenerData(listener, method, method.getAnnotation(EventTarget.class).value());
 	
 		if (containsKey(indexClass)) {
 			get(indexClass).add(data);
 			sortListValue(indexClass);
 		} else {
-			put(indexClass, new CopyOnWriteArrayList<MethodData>() {
+			put(indexClass, new CopyOnWriteArrayList<ListenerData>() {
 				//Eclipse wanted me to add the UID. :/
 				private static final long serialVersionUID = 69L; {
 					add(data);
@@ -144,7 +145,7 @@ public final class RegistryMap extends HashMap<Class<?>, List<MethodData>> {
 	 * 		They index key in the map of which the entry should be removed.
 	 */
 	public void removeEntry(Class<?> indexClass) {
-		Iterator<Map.Entry<Class<?>, List<MethodData>>> mapIterator = entrySet().iterator();
+		Iterator<Map.Entry<Class<?>, List<ListenerData>>> mapIterator = entrySet().iterator();
 		
 		while (mapIterator.hasNext()) {
 			if (mapIterator.next().getKey().equals(indexClass)) {
@@ -162,7 +163,7 @@ public final class RegistryMap extends HashMap<Class<?>, List<MethodData>> {
 	 * 		If true only remove the entries with an empty list, otherwise remove all the entries.
 	 */
 	public void cleanMap(boolean onlyEmptyEntries) {
-		Iterator<Map.Entry<Class<?>, List<MethodData>>> mapIterator = entrySet().iterator();
+		Iterator<Map.Entry<Class<?>, List<ListenerData>>> mapIterator = entrySet().iterator();
 		
 		while (mapIterator.hasNext()) {
 			if (!onlyEmptyEntries || mapIterator.next().getValue().isEmpty()) {
@@ -178,10 +179,10 @@ public final class RegistryMap extends HashMap<Class<?>, List<MethodData>> {
 	 * 		The Event class index in the HashMap of the List to sort.
 	 */
 	private void sortListValue(Class<?> indexClass) {
-		List<MethodData> sortedList = new CopyOnWriteArrayList<MethodData>();
+		List<ListenerData> sortedList = new CopyOnWriteArrayList<ListenerData>();
 		
 		for (final byte priority : Priority.VALUE_ARRAY) {
-			for (final MethodData data : get(indexClass)) {
+			for (final ListenerData data : get(indexClass)) {
 				if (data.getPriority() == priority) {
 					sortedList.add(data);
 				}
@@ -223,14 +224,14 @@ public final class RegistryMap extends HashMap<Class<?>, List<MethodData>> {
 	}
 	
 	/**
-	 * Get's the MethodData list from the HashMap based on the event class.
+	 * Get's the ListenerData list from the HashMap based on the event class.
 	 * 
 	 * @param indexEvent
-	 * 		Event of which we want to get the registered MethodData from.
+	 * 		Event of which we want to get the registered ListenerData from.
 	 * @return
-	 * 		List containing the right MethodData.
+	 * 		List containing the right ListenerData.
 	 */
-	public final List<MethodData> getMatchingData(final Event indexEvent) {
+	public final List<ListenerData> getMatchingData(final Event indexEvent) {
 		return get(indexEvent.getClass());
 	}
 
