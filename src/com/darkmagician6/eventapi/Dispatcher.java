@@ -2,6 +2,7 @@ package com.darkmagician6.eventapi;
 
 import com.darkmagician6.eventapi.data.ListenerData;
 import com.darkmagician6.eventapi.events.Event;
+import com.darkmagician6.eventapi.events.EventStoppable;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
@@ -23,7 +24,10 @@ public final class Dispatcher {
     /**
      * Call's an event and invokes the right methods that are listening to the event call.
      * First get's the matching list from the registry based on the class of the event.
-     * Then it checks if the list is not null and starts looping trough it.
+     * Then it checks if the list is not null. After that it will check if the event is an instance of
+     * EventStoppable and if so it will add an extra check when loopping trough the data.
+     * If the Event was an instance of EventStoppable it will check every loop if the EventStoppable is stopped, and if
+     * it is it will break the loop, thus stopping the call.
      * For every ListenerData in the list it will invoke the Data's method with the Event as the argument.
      * After that is all done it will return the Event.
      *
@@ -33,11 +37,23 @@ public final class Dispatcher {
      * @return Event in the state after dispatching it.
      */
     public static final Event call(final Event event) {
-        List<ListenerData> dataList = Listener.registry.getMatchingData(event);
+        List<ListenerData> dataList = Listener.registry.get(event.getClass());
 
         if (dataList != null) {
-            for (final ListenerData data : dataList) {
-                invoke(data, event);
+            if (event instanceof EventStoppable) {
+                EventStoppable stoppable = (EventStoppable) event;
+
+                for (final ListenerData data : dataList) {
+                    invoke(data, event);
+
+                    if (stoppable.isStopped()) {
+                        break;
+                    }
+                }
+            } else {
+                for (final ListenerData data : dataList) {
+                    invoke(data, event);
+                }
             }
         }
 

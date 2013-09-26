@@ -228,16 +228,4 @@ public final class RegistryMap extends HashMap<Class<?>, List<ListenerData>> {
         return isMethodBad(method) || !method.getParameterTypes()[0].equals(eventClass);
     }
 
-    /**
-     * Get's the ListenerData list from the HashMap based on the event class.
-     *
-     * @param indexEvent
-     *         Event of which we want to get the registered ListenerData from.
-     *
-     * @return List containing the right ListenerData.
-     */
-    public final List<ListenerData> getMatchingData(final Event indexEvent) {
-        return get(indexEvent.getClass());
-    }
-
 }
