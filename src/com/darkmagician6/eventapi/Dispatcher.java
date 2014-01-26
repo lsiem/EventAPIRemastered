@@ -72,7 +72,6 @@ public final class Dispatcher {
      */
     private static void invoke(ListenerData data, Event argument) {
         try {
-            data.getTarget().setAccessible(true);
             data.getTarget().invoke(data.getSource(), argument);
         } catch (IllegalAccessException e) {
         } catch (IllegalArgumentException e) {
