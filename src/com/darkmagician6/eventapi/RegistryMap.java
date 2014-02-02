@@ -126,7 +126,9 @@ public final class RegistryMap extends HashMap<Class<?>, List<ListenerData>> {
         //New ListenerData from the Method we are registering.
         final ListenerData data = new ListenerData(listener, method, method.getAnnotation(EventTarget.class).value());
         //Set's the method to accessible so that we can also invoke it if it's protected or private.
-        data.getTarget().setAccessible(true);
+        if (!data.getTarget().isAccessible()) {
+            data.getTarget().setAccessible(true);
+        }
 
         if (containsKey(indexClass)) {
             if (!get(indexClass).contains(data)) {
