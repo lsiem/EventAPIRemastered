@@ -1,4 +1,4 @@
-package com.darkmagician6.eventapi.events.premade;
+package com.darkmagician6.eventapi.events.callables;
 
 import com.darkmagician6.eventapi.events.Cancellable;
 import com.darkmagician6.eventapi.events.Event;

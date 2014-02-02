@@ -1,11 +1,11 @@
-package com.darkmagician6.eventapi.annotation;
+package com.darkmagician6.eventapi;
 
 import com.darkmagician6.eventapi.types.Priority;
 
 import java.lang.annotation.*;
 
 /**
- * Marks a method so that the registry knows that it should be registered.
+ * Marks a method so that the EventManager knows that it should be registered.
  * The priority of the method is also set with this.
  *
  * @author DarkMagician6
