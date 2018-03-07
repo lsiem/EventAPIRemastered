@@ -23,7 +23,7 @@ public final class EventManager {
 	/**
 	 * HashMap containing all the registered MethodData sorted on the event parameters of the methods.
 	 */
-	private static final Map<Class<? extends Event>, List<MethodData>> REGISTRY_MAP = new HashMap<Class<? extends Event>, List<MethodData>>();
+	private static final HashMap<Class<? extends Event>, List<MethodData>> REGISTRY_MAP = new HashMap<>();
 	
 	/**
 	 * All methods in this class are static so there would be no reason to create an object of the EventManager class.
