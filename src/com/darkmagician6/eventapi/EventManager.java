@@ -51,7 +51,7 @@ public final class EventManager {
      *
      * @param object
      *         Object that contains the Method you want to register.
-     * @param Parameter
+     * @param eventClass
      *         class for the marked method we are looking for.
      */
     public static void register(Object object, Class<? extends Event> eventClass) {
@@ -85,7 +85,7 @@ public final class EventManager {
      *
      * @param object
      *         Object that implements the Listener interface.
-     * @param Parameter
+     * @param eventClass
      *         class for the method to remove.
      */
     public static void unregister(Object object, Class<? extends Event> eventClass) {
@@ -213,7 +213,7 @@ public final class EventManager {
      *
      * @param method
      *         Method to check.
-     * @param Class
+     * @param eventClass
      *         of the Event we want to find a method for receiving it.
      *
      * @return True if the method should not be used for receiving event calls from the Dispatcher.
