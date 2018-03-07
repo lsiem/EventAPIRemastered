@@ -270,15 +270,13 @@ public final class EventManager {
      *         The data of which the targeted Method should be invoked.
      * @param argument
      *         The called Event which should be used as an argument for the targeted Method.
-     *         
-     * TODO: Error messages.
+     *
      */
     private static void invoke(MethodData data, Event argument) {
         try {
             data.getTarget().invoke(data.getSource(), argument);
-        } catch (IllegalAccessException e) {
-        } catch (IllegalArgumentException e) {
-        } catch (InvocationTargetException e) {
+        } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+            e.printStackTrace();
         }
     }
 	
