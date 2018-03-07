@@ -39,11 +39,9 @@ public final class EventManager {
      */
     public static void register(Object object) {
         for (final Method method : object.getClass().getDeclaredMethods()) {
-            if (isMethodBad(method)) {
-                continue;
+            if (!isMethodBad(method)) {
+                register(method, object);
             }
-
-            register(method, object);
         }
     }
 
@@ -58,11 +56,9 @@ public final class EventManager {
      */
     public static void register(Object object, Class<? extends Event> eventClass) {
         for (final Method method : object.getClass().getDeclaredMethods()) {
-            if (isMethodBad(method, eventClass)) {
-                continue;
+            if (!isMethodBad(method, eventClass)) {
+                register(method, object);
             }
-
-            register(method, object);
         }
     }
 
